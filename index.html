@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chronologie de Vie – Mini-Jeux</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="Logo Chronologie de Vie" id="main-logo">
+    </header>
+    <div class="scroll-down-indicator">▼<br>Swipe Down<br>(fais glisser vers le bas en gros)</div>
+    <main id="main-content">
+        <section id="start-section">
+            <div id="intro-text">
+                <h1>Bienvenue dans la grande aventure de Manel (toi) !</h1>
+                <p>Prépares toi à passer une quinzaine de minutes de fun à l'état pur, dans un jeu qui retrace toute* ta vie d'une précision extrême !</p>
+                <p id="almost">*Presque toute ta vie, en tout cas les infos que tu m'as partagées.</p>
+            </div>
+            <button id="start-btn" class="hidden">Commencer l'aventure ></button>
+        </section>
+        <section id="game-section" class="hidden">
+            <!-- Les jeux seront injectés ici dynamiquement -->
+        </section>
+        <section id="end-section" class="hidden">
+            <h2>Bravo 🎉</h2>
+            <p>Tu as terminé l’aventure !</p>
+        </section>
+    </main>
+    <footer>
+        © 2025 Haizer pour Manel.
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
