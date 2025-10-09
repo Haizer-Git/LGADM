@@ -334,14 +334,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const footer = document.querySelector("footer");
         if (footer) footer.style.display = "";
 
-        const container = document.getElementById("mini-game-1");
+        const container = document.getElementById("mini-game-2");
         if (!container) return;
         // Config
         const ballGroundY = 180;
         const ballKickY = 150;
         const kickZone = 60;
         const kickCooldown = 180;
-        const gravity = 0.06;
+        const gravity = 750; // pixels / seconde² (était 0.06 “par frame”)
         const JONGLES_OBJECTIF = 20;
 
         container.innerHTML = `
@@ -388,6 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let animFrame = null;
         let isFailed = false;
         let isSuccess = false;
+        let lastTime = null; // Pour animation framerate-indépendante
 
         function updateKickZoneVisual() {
             kickZoneVisual.className = "kick-zone-visual";
@@ -431,14 +432,19 @@ document.addEventListener("DOMContentLoaded", () => {
             if (nextLink) nextLink.style.display = "none";
             ball.style.top = ballY + "px";
             if (animFrame) cancelAnimationFrame(animFrame);
+            lastTime = performance.now();
             animFrame = requestAnimationFrame(updateBall);
         }
 
-        function updateBall() {
+        function updateBall(now) {
             if (isFailed || isSuccess) return;
+            if (!lastTime) lastTime = now;
+            const dt = Math.min((now - lastTime) / 1000, 0.04); // Limite à 40ms pour éviter les gros lags
+            lastTime = now;
+
             if (isAirborne) {
-                ballVY += gravity;
-                ballY += ballVY;
+                ballVY += gravity * dt;
+                ballY += ballVY * dt;
                 if (ballY >= canvas.height - 18) {
                     ballY = canvas.height - 18;
                     isFailed = true;
@@ -452,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
             animFrame = requestAnimationFrame(updateBall);
         }
 
-        function tryJuggle() {
+        function tryJuggle(e) {
             if (isSuccess) return;
             if (isFailed) {
                 resetGame();
@@ -464,11 +470,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             animateKick();
 
+            // On n'utilise plus la vitesse "par frame" mais en pixels/sec, donc -350px/sec = ~3.5px/frame à 60fps
             if (
                 (!isAirborne && Math.abs(ballY - ballGroundY) < 6) ||
                 (isAirborne && Math.abs(ballY - ballKickY) < kickZone && ballVY > 0)
             ) {
-                ballVY = -3.5 - Math.random();
+                ballVY = -350 - Math.random() * 60; // pixels/sec (ajoute un peu de variation)
                 isAirborne = true;
                 jongles++;
                 counterDisplay.textContent = "Jongles : " + jongles;
