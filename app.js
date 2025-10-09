@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = `
             <div class="game-instructions">
                 <h2>Niveau 2 - Football</h2>
-                <p>Comme pendant les détections, fais 30 jongles pour valider l'exo ! ⚽ <br>Cliques au bon moment pour jongler.</p>
+                <p>Comme pendant les détections, fais 20 jongles pour valider l'exo ! ⚽ <br>Cliques au bon moment pour jongler.</p>
             </div>
             <div id="jongle-game">
                 <div class="jongle-arena">
@@ -545,7 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const obstacleSpeed = 1; // px/frame
 
         // Timer
-        let timeLeft = 2;
+        let timeLeft = 20;
         let isGameOver = false;
 
         container.innerHTML = `
