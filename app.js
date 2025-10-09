@@ -342,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const kickZone = 60;
         const kickCooldown = 180;
         const gravity = 0.06;
-        const JONGLES_OBJECTIF = 2;
+        const JONGLES_OBJECTIF = 20;
 
         container.innerHTML = `
             <div class="game-instructions">

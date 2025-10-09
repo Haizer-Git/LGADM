@@ -1,5 +1,5 @@
 function niv3_1(containerId, imgUrl, onComplete) {
-    const SIZE = 4;
+    const SIZE = 2;
     const PIECE_SIZE = 90; // px
 
     function shuffledOrder() {
