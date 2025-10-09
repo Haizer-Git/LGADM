@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+    document.body.style.overflowX = "hidden";
+    document.addEventListener('touchmove', function(e) {
+        if (e.touches && e.touches.length === 1) {
+            if (Math.abs(e.touches[0].clientX - (window.lastTouchX || 0)) > Math.abs(e.touches[0].clientY - (window.lastTouchY || 0))) {
+                e.preventDefault();
+            }
+            window.lastTouchX = e.touches[0].clientX;
+            window.lastTouchY = e.touches[0].clientY;
+        }
+    }, { passive: false });
     // --- LOGO & BOUTON ANIMATION ON SCROLL ---
     const header = document.querySelector("header");
     const logo = document.getElementById("main-logo");

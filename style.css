@@ -101,6 +101,7 @@ main {
 }
 
 #start-section h1 {
+    padding-top:1.5rem;
     font-size: 1rem;
     text-align: center;
 }
