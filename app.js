@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const footer = document.querySelector("footer");
         if (footer) footer.style.display = "";
 
-        const container = document.getElementById("mini-game-2");
+        const container = document.getElementById("mini-game-1");
         if (!container) return;
         // Config
         const ballGroundY = 180;
