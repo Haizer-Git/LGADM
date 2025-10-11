@@ -1,232 +1,277 @@
-// cut-scene1.js
-
-const dialogues = [
-    "Bienvenue dans l'aventure !",
-    "Tu es sur le point de découvrir un secret.",
-    "Mais attention, chaque choix compte...",
-    "Es-tu prêt à continuer ?",
-    "Bonne chance !"
-];
-
-// Création du conteneur principal centré
-const container = document.createElement('div');
-container.style.position = 'fixed';
-container.style.top = '0';
-container.style.left = '0';
-container.style.width = '100vw';
-container.style.height = '100vh';
-container.style.display = 'flex';
-container.style.alignItems = 'center';
-container.style.justifyContent = 'center';
-container.style.pointerEvents = 'none'; // Pour ne pas bloquer les interactions
-
-// Création de la boîte de dialogue
-const dialogueBox = document.createElement('div');
-dialogueBox.style.background = 'rgba(30,30,30,0.95)';
-dialogueBox.style.color = '#fff';
-dialogueBox.style.padding = '24px 32px';
-dialogueBox.style.borderRadius = '16px';
-dialogueBox.style.minWidth = '400px';
-dialogueBox.style.fontSize = '1.2rem';
-dialogueBox.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)';
-dialogueBox.style.maxHeight = '160px';
-dialogueBox.style.overflowY = 'auto';
-dialogueBox.style.display = 'flex';
-dialogueBox.style.flexDirection = 'column';
-dialogueBox.style.gap = '12px';
-dialogueBox.style.transition = 'max-height 0.4s';
-dialogueBox.style.pointerEvents = 'auto';
-
-container.appendChild(dialogueBox);
-document.body.appendChild(container);
-
-let current = 0;
-
-function showNextDialogue() {
-    if (current < dialogues.length) {
-        // Détermine le côté du message : pair = gauche, impair = droite
-        const isLeft = current % 2 === 0;
-        const msgWrapper = document.createElement('div');
-        msgWrapper.style.display = 'flex';
-        msgWrapper.style.justifyContent = isLeft ? 'flex-start' : 'flex-end';
-
-        const msg = document.createElement('div');
-        msg.textContent = dialogues[current];
-        msg.style.opacity = 0;
-        msg.style.transition = 'opacity 0.5s';
-        msg.style.maxWidth = '70%';
-        msg.style.padding = '10px 18px';
-        msg.style.borderRadius = '18px';
-        msg.style.background = isLeft ? '#444' : '#1976d2';
-        msg.style.color = isLeft ? '#fff' : '#fff';
-        msg.style.alignSelf = isLeft ? 'flex-start' : 'flex-end';
-        msg.style.marginLeft = isLeft ? '0' : '40px';
-        msg.style.marginRight = isLeft ? '40px' : '0';
-
-        msgWrapper.appendChild(msg);
-        dialogueBox.appendChild(msgWrapper);
-
-        setTimeout(() => { msg.style.opacity = 1; }, 50);
-
-        // À partir du 3ème message, effet de scroll pour suivre le dernier
-        if (current >= 2) {
-            setTimeout(() => {
-                dialogueBox.scrollTop = dialogueBox.scrollHeight;
-            }, 60);
-        }
-
-        current++;
-        setTimeout(showNextDialogue, 2000);
-    }
-}
-
-// // Augmente la hauteur de la fenêtre de dialogue
-// --- CINEMATIQUE : Deux emojis se font face et discutent via des bulles type manga/bd ---
-
-// 1. On augmente la hauteur de la fenêtre de dialogue
-dialogueBox.style.maxHeight = '420px';
-
-// 2. Création de la scène principale (deux emojis face à face)
-const sceneContainer = document.createElement('div');
-sceneContainer.style.position = 'relative';
-sceneContainer.style.height = '180px';
-sceneContainer.style.marginBottom = '24px';
-sceneContainer.style.overflow = 'hidden';
-
-// Emoji personnage gauche
-const leftChar = document.createElement('span');
-leftChar.textContent = '🦸‍♂️';
-leftChar.style.position = 'absolute';
-leftChar.style.left = '30px';
-leftChar.style.bottom = '0px';
-leftChar.style.fontSize = '5rem';
-leftChar.style.transition = 'transform 0.3s cubic-bezier(.68,-0.55,.27,1.55)';
-
-// Emoji personnage droite
-const rightChar = document.createElement('span');
-rightChar.textContent = '🦹‍♀️';
-rightChar.style.position = 'absolute';
-rightChar.style.right = '30px';
-rightChar.style.bottom = '0px';
-rightChar.style.fontSize = '5rem';
-rightChar.style.transition = 'transform 0.3s cubic-bezier(.68,-0.55,.27,1.55)';
-
-// Bulle de dialogue gauche
-const leftBubble = document.createElement('div');
-leftBubble.style.position = 'absolute';
-leftBubble.style.left = '110px';
-leftBubble.style.bottom = '90px';
-leftBubble.style.maxWidth = '180px';
-leftBubble.style.background = '#fff';
-leftBubble.style.color = '#222';
-leftBubble.style.borderRadius = '18px 18px 18px 0';
-leftBubble.style.padding = '12px 18px';
-leftBubble.style.boxShadow = '0 2px 8px rgba(0,0,0,0.12)';
-leftBubble.style.opacity = '0';
-leftBubble.style.transition = 'opacity 0.4s';
-
-// Bulle de dialogue droite
-const rightBubble = document.createElement('div');
-rightBubble.style.position = 'absolute';
-rightBubble.style.right = '110px';
-rightBubble.style.bottom = '90px';
-rightBubble.style.maxWidth = '180px';
-rightBubble.style.background = '#fff';
-rightBubble.style.color = '#222';
-rightBubble.style.borderRadius = '18px 18px 0 18px';
-rightBubble.style.padding = '12px 18px';
-rightBubble.style.boxShadow = '0 2px 8px rgba(0,0,0,0.12)';
-rightBubble.style.opacity = '0';
-rightBubble.style.transition = 'opacity 0.4s';
-
-sceneContainer.appendChild(leftChar);
-sceneContainer.appendChild(rightChar);
-sceneContainer.appendChild(leftBubble);
-sceneContainer.appendChild(rightBubble);
-dialogueBox.insertBefore(sceneContainer, dialogueBox.firstChild);
-
-// 3. Animation simple : petit effet rebond sur chaque emoji quand il parle
-function bounce(char) {
-    char.style.transform = 'translateY(-18px)';
+// cut-scene1.js - Cinématique d'introduction
+// Fonction pour créer et afficher la boîte de dialogue
+// Système de gestion des dialogues
+// Initialiser les dialogues au démarrage
+window.addEventListener('DOMContentLoaded', () => {
+    // Lancer automatiquement les dialogues après un court délai
     setTimeout(() => {
-        char.style.transform = 'translateY(0)';
-    }, 220);
-}
+        dialogManager.play();
+    }, 1000);
+});
 
-// 4. Affichage des dialogues façon manga/bd
-const mangaDialogues = [
-    { side: 'left', text: "Salut ! Tu es prêt pour l'aventure ?" },
-    { side: 'right', text: "Toujours prêt ! On y va ensemble ?" },
-    { side: 'left', text: "Bien sûr, mais attention aux surprises..." },
-    { side: 'right', text: "Je n'ai peur de rien !" },
-    { side: 'left', text: "Alors, en route !" }
-];
+class DialogManager {
+    constructor() {
+        this.dialogQueue = [{ character: '🧑🏽‍⚕️', text: 'Félicitation madame Kermal, c\'est une fille !', duration: 4 }, 
+            { character: '👩🏻‍⚕️', text: 'Comment allez-vous l\'appeler ?', duration: 2 },
+            { character: '🤓', text: 'OUIN OUIN JE PLEURE REGARDEZ MOI OUIN OUIN', duration: 2},
+            { character: '👩🏽', text: 'Je vais l\'appeler El Mordjene 92I', duration: 3 },
+            { character: '👩🏻‍⚕️', text: 'Euuuhh.. vous n\'avez pas le droit', duration: 2 },
+            { character: '👩🏽', text: 'Vous avez raison, j\'ai changé d\'avis, ça sera Adolf Himler !', duration: 3 },
+            { character: '👩🏻‍⚕️', text: 'HEIN ??', duration: 2 },
+            { character: '🧑🏽‍⚕️', text: 'On va appeller les poulets madame !', duration: 2 },
+            { character: '👩🏽', text: 'Oh non désolé c\'est bon 😭', duration: 2 },
+            { character: '👩🏻‍⚕️', text: 'Avec ses grosses lunettes...', duration: 2 },
+            { character: '👩🏽', text: 'Je vais la call, Manel !', duration: 2 },
+            { character: '🧑🏽‍⚕️', text: 'On est en France, on parle français !', duration: 2 },
+            { character: '👩🏻‍⚕️', text: 'Sale arabe, retourne dans ton pays !', duration: 2 },
+            { character: '🧑🏽‍⚕️', text: 'Manel... c\'est noté.', duration: 2 },
+            { character: '🧑🏽‍⚕️', text: 'Marine le Pen, emmenez le bébé en surveillance', duration: 2 },
+            { character: '👩🏻‍⚕️', text: 'Tout de suite Mr Zemmour !', duration: 2 },
+        ];
+        this.nextSceneImage = '../img/NouvelleScene.png'; // Remplacez par le chemin de votre image
 
-let mangaStep = 0;
-function showMangaDialogue() {
-    if (mangaStep >= mangaDialogues.length) {
-        // Fin de la scène, on efface et lance la suite (SMS)
-        sceneContainer.style.opacity = '0';
-        setTimeout(() => {
-            sceneContainer.style.display = 'none';
-            showNextDialogue();
-        }, 400);
-        return;
+        this.isPlaying = false;
+        this.currentDialogBox = null;
     }
-    const { side, text } = mangaDialogues[mangaStep];
-    if (side === 'left') {
-        leftBubble.textContent = text;
-        leftBubble.style.opacity = '1';
-        rightBubble.style.opacity = '0';
-        bounce(leftChar);
-    } else {
-        rightBubble.textContent = text;
-        rightBubble.style.opacity = '1';
-        leftBubble.style.opacity = '0';
-        bounce(rightChar);
+
+    // Ajouter des dialogues à la queue
+    addDialog(character, text, duration) {
+        this.dialogQueue.push({ character, text, duration });
+        return this;
     }
-    mangaStep++;
-    setTimeout(showMangaDialogue, 2000);
-}
 
-// 5. Conversation SMS (réutilise la fonction existante)
-function showNextDialogue() {
-    if (current < dialogues.length) {
-        // Style SMS classique (gauche/droite)
-        const isLeft = current % 2 === 0;
-        const msgWrapper = document.createElement('div');
-        msgWrapper.style.display = 'flex';
-        msgWrapper.style.justifyContent = isLeft ? 'flex-start' : 'flex-end';
+    // Démarrer la séquence de dialogues
+    async play() {
+        if (this.isPlaying) return;
+        this.isPlaying = true;
 
-        const msg = document.createElement('div');
-        msg.textContent = dialogues[current];
-        msg.style.opacity = 0;
-        msg.style.transition = 'opacity 0.5s';
-        msg.style.maxWidth = '70%';
-        msg.style.padding = '10px 18px';
-        msg.style.borderRadius = '18px';
-        msg.style.background = isLeft ? '#444' : '#1976d2';
-        msg.style.color = isLeft ? '#fff' : '#fff';
-        msg.style.alignSelf = isLeft ? 'flex-start' : 'flex-end';
-        msg.style.marginLeft = isLeft ? '0' : '40px';
-        msg.style.marginRight = isLeft ? '40px' : '0';
-
-        msgWrapper.appendChild(msg);
-        dialogueBox.appendChild(msgWrapper);
-
-        setTimeout(() => { msg.style.opacity = 1; }, 50);
-
-        // À partir du 3ème message, effet de scroll pour suivre le dernier
-        if (current >= 2) {
-            setTimeout(() => {
-                dialogueBox.scrollTop = dialogueBox.scrollHeight;
-            }, 60);
+        for (const dialog of this.dialogQueue) {
+            await this.displayDialog(dialog.character, dialog.text, dialog.duration);
         }
 
-        current++;
-        setTimeout(showNextDialogue, 2000);
+        this.isPlaying = false;
+        this.dialogQueue = [];
+        this.hideDialog();
+    }
+
+    // Afficher un dialogue pendant une durée donnée
+    displayDialog(character, text, duration) {
+        return new Promise((resolve) => {
+            showDialog(character, text);
+            setTimeout(() => {
+                resolve();
+            }, duration * 1000);
+        });
+    }
+
+    // Cacher la boîte de dialogue
+    hideDialog() {
+        const container = document.querySelector('.cutscene-container');
+        const dialogBox = container?.querySelector('.dialog-box');
+        if (dialogBox) {
+            dialogBox.remove();
+        }
     }
 }
 
-// Lancement de la cinématique manga/bd
-showMangaDialogue();
+// Créer une instance du gestionnaire de dialogues
+const dialogManager = new DialogManager();
+
+// AJOUTEZ VOS DIALOGUES ICI :
+// Exemple d'utilisation
+function createDialogBox() {
+    const dialogBox = document.createElement('div');
+    dialogBox.className = 'dialog-box';
+    dialogBox.innerHTML = `
+        <div class="dialog-speaker-emoji"></div>
+        <div class="dialog-text"></div>
+    `;
+    
+    // Styles pour la boîte de dialogue
+    const dialogStyle = document.createElement('style');
+    dialogStyle.textContent = `
+        .dialog-box {
+            position: absolute;
+            width: 60%;
+            height: 15%;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid white;
+            border-radius: 10px;
+            padding-top: 10%;
+            padding-left:5%;
+            text-align: left;
+            z-index: 20;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .dialog-speaker-emoji {
+            position: absolute;
+            top: -30px;
+            left: 5%;
+            font-size: 3rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dialog-text {
+            color: white;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+    `;
+    document.head.appendChild(dialogStyle);
+    
+    return dialogBox;
+}
+
+// Fonction pour afficher un dialogue
+function showDialog(speakerEmoji, text) {
+    const container = document.querySelector('.cutscene-container');
+    let dialogBox = container.querySelector('.dialog-box');
+    
+    if (!dialogBox) {
+        dialogBox = createDialogBox();
+        container.appendChild(dialogBox);
+    }
+    
+    dialogBox.querySelector('.dialog-speaker-emoji').textContent = speakerEmoji;
+    dialogBox.querySelector('.dialog-text').textContent = text;
+}
+
+const scene = document.getElementById('mini-game-1');
+
+// Configuration de la scène
+const config = {
+    backgroundImage1: '../img/Hopital.png', // Image de départ
+    backgroundImage2: '../img/Chambre.png', // Image d'arrière-plan après zoom
+    emojis: ['👩🏽', '🤓', '👩🏻‍⚕️', '🧑🏽‍⚕️'], // Emojis à afficher
+    zoomDuration: 5000, // Durée du zoom en ms
+    emojiDelay: 500 // Délai entre chaque emoji
+};
+
+// Créer la structure HTML
+function initScene() {
+    scene.innerHTML = `
+        <div class="cutscene-container">
+            <div class="background-layer bg-1"></div>
+            <div class="background-layer bg-2"></div>
+            <div class="emoji-container"></div>
+        </div>
+    `;
+
+    // Appliquer les styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .cutscene-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .background-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform ${config.zoomDuration}ms ease-in-out;
+        }
+        .bg-1 {
+            background-image: url('${config.backgroundImage1}');
+            z-index: 1;
+        }
+        .bg-2 {
+            background-image: url('${config.backgroundImage2}');
+            z-index: 2;
+            opacity: 1;
+        }
+        .emoji-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            opacity: 1;
+        }
+        .emoji {
+            position: absolute;
+            opacity: 1;
+        }
+        .zoom {
+            transform: scale(1.5);
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Démarrer la cinématique
+function startCutscene() {
+    const emojiContainer = scene.querySelector('.emoji-container');
+
+    // Positions personnalisées pour les emojis
+    const emojiPositions = [
+        { top: '40%', left: '58%', size: '4rem', rotation: '0deg' }, // Position pour 👩🏽
+        { top: '45%', left: '62%', size: '2rem', rotation: '50deg' }, // Position pour 🤓
+        { top: '40%', left: '20%', size: '7rem', rotation: '0deg' }, // Position pour 👩🏽‍⚕️
+        { top: '60%', left: '20%', size: '7rem', rotation: '0deg' }  // Position pour 🧑🏽‍⚕️
+    ];
+
+    // Afficher les emojis directement
+    config.emojis.forEach((emoji, index) => {
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'emoji';
+        emojiSpan.textContent = emoji;
+        emojiSpan.style.top = emojiPositions[index].top;
+        emojiSpan.style.left = emojiPositions[index].left;
+        emojiSpan.style.fontSize = emojiPositions[index].size;
+        emojiSpan.style.transform = `translate(-50%, -50%) rotate(${emojiPositions[index].rotation})`;
+        emojiContainer.appendChild(emojiSpan);
+    });
+
+    /* CODE INACTIF - Animation avec zoom
+    const bg1 = scene.querySelector('.bg-1');
+    const bg2 = scene.querySelector('.bg-2');
+
+    // Zoom sur la première image
+    setTimeout(() => {
+        bg1.classList.add('zoom');
+    }, 500);
+
+    // Afficher la deuxième image
+    setTimeout(() => {
+        bg2.style.opacity = '1';
+    }, config.zoomDuration);
+
+    // Afficher les emojis un par un après le zoom et l'affichage de l'image 2
+    setTimeout(() => {
+        config.emojis.forEach((emoji, index) => {
+            setTimeout(() => {
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'emoji';
+                emojiSpan.textContent = emoji;
+                emojiSpan.style.top = emojiPositions[index].top;
+                emojiSpan.style.left = emojiPositions[index].left;
+                emojiSpan.style.fontSize = emojiPositions[index].size;
+                emojiSpan.style.transform = `translate(-50%, -50%) rotate(${emojiPositions[index].rotation})`;
+                emojiSpan.style.animationDelay = `${index * 0.2}s`;
+                emojiContainer.appendChild(emojiSpan);
+            }, index * config.emojiDelay);
+        });
+    }, config.zoomDuration + 500);
+    */
+}
+
+// Initialiser et lancer
+initScene();
+startCutscene();
+
+// Afficher un dialogue exemple
+dialogManager
+
