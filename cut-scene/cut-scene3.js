@@ -1,61 +1,58 @@
-// cut-scene1.js - Cinématique d'introduction
-
-
-function cin1_1() {
+function cin4_1() {
     // Configuration des scènes
     const scenesConfig = {
         scene1: {
-            backgroundImage: '../img/Chambre.png',
-            emojis: ['👩🏽', '🤓', '👩🏻‍⚕️', '🧑🏽‍⚕️'],
+            backgroundImage: '../img/Maison.png',
+            emojis: ['🤓','👨🏽‍🦱','🐈','🚬'],
             emojiPositions: [
-                { top: '40%', left: '58%', size: '4rem', rotation: '0deg' }, // 👩🏽
-                { top: '45%', left: '62%', size: '2rem', rotation: '50deg' }, // 🤓
-                { top: '40%', left: '20%', size: '7rem', rotation: '0deg' }, // 👩🏻‍⚕️
-                { top: '60%', left: '20%', size: '7rem', rotation: '0deg' }  // 🧑🏽‍⚕️
+                { top: '77%', left: '40%', size: '4rem', rotation: '0deg' }, // 🤓
+                { top: '75%', left: '10%', size: '4rem', rotation: '0deg' }, // 👨🏽‍🦱
+                { top: '43%', left: '65%', size: '3rem', rotation: '0deg' }, // 🐈
+                { top: '77%', left: '7%', size: '1rem', rotation: '0deg' }, // 🚬
             ],
             dialogues: [
-                { character: '🧑🏽‍⚕️', text: 'Félicitation madame Kermal, c\'est une fille !', duration: 4 },
-                { character: '👩🏻‍⚕️', text: 'Comment allez-vous l\'appeler ?', duration: 2 },
-                { character: '🤓', text: 'OUIN OUIN JE PLEURE REGARDEZ MOI OUIN OUIN', duration: 2 },
-                { character: '👩🏽', text: 'Je vais l\'appeler El Mordjene 92I', duration: 3 },
-                { character: '👩🏻‍⚕️', text: 'Euuuhh.. vous n\'avez pas le droit', duration: 2 },
-                { character: '👩🏽', text: 'Vous avez raison, j\'ai changé d\'avis, ça sera Adolf Himler !', duration: 3 },
-                { character: '👩🏻‍⚕️', text: 'HEIN ??', duration: 2 },
-                { character: '🧑🏽‍⚕️', text: 'On va appeller les poulets madame !', duration: 2 },
-                { character: '👩🏽', text: 'Oh non désolé c\'est bon 😭', duration: 2 },
-                { character: '👩🏻‍⚕️', text: 'Avec ses grosses lunettes...', duration: 2 },
-                { character: '👩🏽', text: 'Je vais la call, Manel !', duration: 2 },
-                { character: '🧑🏽‍⚕️', text: 'On est en France, on parle français !', duration: 2 },
-                { character: '👩🏻‍⚕️', text: 'Sale arabe, retourne dans ton pays !', duration: 2 },
-                { character: '🧑🏽‍⚕️', text: 'Manel... c\'est noté.', duration: 2 },
-                { character: '🧑🏽‍⚕️', text: 'Marine le Pen, emmenez le bébé en surveillance', duration: 2 },
-                { character: '👩🏻‍⚕️', text: 'Tout de suite Mr Zemmour !', duration: 2 }
+                { character: '🐈', text: 'MIAOU', duration: 1.5 },
+                { character: '🤓', text: 'AHHHH', duration: 1.5 },
+                { character: '🤓', text: 'Qu\'est-ce que ça fait du bien de rentrer à la casa.', duration: 3 },
+                { character: '🤓', text: 'J\'ai bien mérité ça après ces années d\'internat.', duration: 2.5 },
+                { character: '👨🏽‍🦱', text: 'Salut oukty, ça gaze ?', duration: 2 },
+                { character: '🤓', text: 'Salu..', duration: 1 },
+                { character: '🤓', text: 'T\'as quoi dans la bouche ?', duration: 2 },
+                { character: '👨🏽‍🦱', text: 'Tu connais pas ? C\'est la mode maintenant', duration: 2 },
+                { character: '👨🏽‍🦱', text: 'C\'est une Puff !', duration: 1.5 },
+                { character: '🤓', text: 'Une quoi ?', duration: 1 },
+                { character: '👨🏽‍🦱', text: 'Une puff !', duration: 1 },
+                { character: '🤓', text: 'Une quoi ? Une quoi ?', duration: 1 },
+                { character: '👨🏽‍🦱', text: 'Une puff !', duration: 1 },
+                { character: '👨🏽‍🦱', text: 'Tu veux gouter ? Ca détend pour les exams !', duration: 2.5 },
+                { character: '🤓', text: 'Ouais pourquoi pas ! J\'en ai bien besoin avec les partiels !', duration: 2.5 },
             ]
         },
         scene2: {
-            backgroundImage: '../img/Chambre.png',
-            emojis: ['👩🏽', '', '👩🏻‍⚕️', ''],
+            backgroundImage: '../img/Maison.png',
+            emojis: ['🤓','👨🏽‍🦱','🐈','🚬','🚬','🚬','🚬'],
             emojiPositions: [
-                { top: '40%', left: '58%', size: '4rem', rotation: '0deg' }, // 👩🏽
-                { top: '45%', left: '62%', size: '2rem', rotation: '50deg' }, // 🤓
-                { top: '50%', left: '20%', size: '7rem', rotation: '0deg' }, // 👩🏻‍⚕️
-                { top: '40%', left: '20%', size: '7rem', rotation: '0deg' }  // 🧑🏽‍⚕️
+                { top: '50%', left: '10%', size: '4rem', rotation: '0deg' }, // 🤓
+                { top: '30%', left: '50%', size: '2.7rem', rotation: '0deg' }, // 👨🏽‍🦱
+                { top: '75%', left: '65%', size: '3rem', rotation: '0deg' }, // 🐈
+                { top: '31.12%', left: '48%', size: '0.5rem', rotation: '0deg' }, // 🚬
+                { top: '51.5%', left: '5%', size: '1rem', rotation: '0deg' }, // 🚬
+                { top: '61%', left: '50%', size: '1.5rem', rotation: '30deg' }, // 🚬
+                { top: '45%', left: '50%', size: '1.5rem', rotation: '0deg' }, // 🚬
             ],
             dialogues: [
-                { character: '👩🏻‍⚕️', text: 'Madame Kermal, vous vous êtes bien reposée ?', duration: 3 },
-                { character: '👩🏽', text: 'Encore un peu fatiguée, mais oui.', duration: 2 },
-                { character: '👩🏽', text: 'Vous savez quand je pourrais revoir mon bébé ?', duration: 3 },
-                { character: '👩🏻‍⚕️', text: 'En parlant de ça, vous allez trouvez ça CRAZYYYY', duration: 2 },
-                { character: '👩🏻‍⚕️', text: 'Mais on l\'a perdu 😅', duration: 2 },
-                { character: '👩🏽', text: 'MAIS WHAAAT ? NO WAY ? I DONT BELIEVE IT', duration: 3 },
-                { character: '👩🏻‍⚕️', text: 'Pourquoi vous parlez anglais ??', duration: 2 },
-                { character: '👩🏽', text: 'Ah oui désolé...', duration: 2 },
-                { character: '👩🏽', text: 'Comment ça vous l\'avez perdu ??', duration: 2 },
-                { character: '👩🏻‍⚕️', text: 'On l\'a pas vraiment perdu..', duration: 2 },
-                { character: '👩🏻‍⚕️', text: 'On l\'a juste mélangé avec les autres bébés et on le retrouve plus', duration: 3 },
-                { character: '👩🏽', text: 'Mais il faut absolument la retrouver, sinon Haizer il va faire comment ?', duration: 3 },
-                { character: '👩🏻‍⚕️', text: 'Ce BG en trouvera d\'autres vous en faites pas.', duration: 2 },
-                { character: '👩🏽', text: 'NON ! Je vais vous aider a la retrouver !', duration: 2 },
+                { character: '🐈', text: 'MI', duration: 1 },
+                { character: '🐈', text: 'AOUU', duration: 1 },
+                { character: '🤓', text: 'Wesh frangin, ça dit quoi ?', duration: 2 },
+                { character: '👨🏽‍🦱', text: 'Manel, c\'est toi qui a laissé toutes ces puffs partout ??', duration: 3 },
+                { character: '🤓', text: 'Ah, p\'tetre j\'ai pas fais gaffe 😅', duration: 1.5 },
+                { character: '👨🏽‍🦱', text: 'Faut vite que tu les ramasses !!!', duration: 1.5 },
+                { character: '🤓', text: 'Je le ferai après, tkt pas..', duration: 1.5 },
+                { character: '👨🏽‍🦱', text: 'Nan nan MAINTENANT !', duration: 1.5 },
+                { character: '👨🏽‍🦱', text: 'Maman arrive, si elle en trouve t\'es dead !', duration: 2 },
+                { character: '🤓', text: 'QUOIIIII', duration: 1.5 },
+                { character: '🤓', text: 'Euuuh ok ok, je vais les récupérer.', duration: 1.5 },
+                { character: '👨🏽‍🦱', text: 'Fais vite, elle est en bas, elle arrive dans 2 minutes !', duration: 3 },
             ]
         }
     };
@@ -170,16 +167,16 @@ function cin1_1() {
         dialogBox.querySelector('.dialog-text').textContent = text;
     }
 
-    // Initialiser la scène
+    // Initialiser la scène avec deux backgrounds différents
     const scene = document.getElementById('mini-game-1');
 
     function initScene() {
         scene.innerHTML = `
             <div class="cutscene-container">
-                <div class="background-layer bg-hopital"></div>
-                <div class="background-layer bg-chambre"></div>
+                <div class="background-layer bg-scene1"></div>
+                <div class="background-layer bg-scene2" style="opacity:0;"></div>
                 <div class="fade-overlay"></div>
-                <div class="transition-text">Quelques heures plus tard...</div>
+                <div class="transition-text">Quelques jours plus tard...</div>
                 <div class="emoji-container"></div>
             </div>
         `;
@@ -199,16 +196,15 @@ function cin1_1() {
                 height: 100%;
                 background-size: cover;
                 background-position: center;
-                transition: transform 3s ease-in-out, opacity 1.5s ease-in-out;
+                transition: opacity 1.2s ease-in-out;
             }
-            .bg-hopital {
-                background-image: url('../img/Hopital.png');
+            .bg-scene1 {
+                background-image: url('${scenesConfig.scene1.backgroundImage}');
                 z-index: 1;
                 opacity: 1;
-                transform: scale(1);
             }
-            .bg-chambre {
-                background-image: url('../img/Chambre.png');
+            .bg-scene2 {
+                background-image: url('${scenesConfig.scene2.backgroundImage}');
                 z-index: 2;
                 opacity: 0;
             }
@@ -221,7 +217,7 @@ function cin1_1() {
                 background: black;
                 opacity: 0;
                 z-index: 15;
-                transition: opacity 1.5s ease-in-out;
+                transition: opacity 1.2s ease-in-out;
                 pointer-events: none;
             }
             .fade-overlay.active {
@@ -262,19 +258,17 @@ function cin1_1() {
                 position: absolute;
                 opacity: 1;
             }
-            .zoom {
-                transform: scale(1.5) !important;
-            }
         `;
         document.head.appendChild(style);
     }
 
-    // Afficher une scène avec ses emojis
+    // Afficher les emojis pour une scène donnée
     function displayScene(sceneConfig) {
         const emojiContainer = scene.querySelector('.emoji-container');
         emojiContainer.innerHTML = '';
 
         sceneConfig.emojis.forEach((emoji, index) => {
+            if (!emoji) return;
             const emojiSpan = document.createElement('span');
             emojiSpan.className = 'emoji';
             emojiSpan.textContent = emoji;
@@ -323,54 +317,48 @@ function cin1_1() {
             setTimeout(() => {
                 emojiContainer.classList.add('visible');
                 resolve();
-            }, 500);
+            }, 600);
         });
     }
 
     // Séquence complète de la cinématique
     async function startCutscene() {
-        const bgHopital = scene.querySelector('.bg-hopital');
-        const bgChambre = scene.querySelector('.bg-chambre');
+        const bgScene1 = scene.querySelector('.bg-scene1');
+        const bgScene2 = scene.querySelector('.bg-scene2');
         const emojiContainer = scene.querySelector('.emoji-container');
 
-        // 1. Afficher l'hôpital puis zoom
-        await new Promise(resolve => setTimeout(resolve, 500));
-        bgHopital.classList.add('zoom');
-
-        // 2. Attendre la fin du zoom
-        await new Promise(resolve => setTimeout(resolve, 3000));
-
-        // 3. Fondu vers la chambre
-        bgChambre.style.opacity = '1';
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        // 4. Afficher les emojis de la scène 1
+        // --- SCENE 1 ---
         displayScene(scenesConfig.scene1);
         emojiContainer.classList.add('visible');
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // 5. Lancer les dialogues de la scène 1
+        await new Promise(resolve => setTimeout(resolve, 700));
         dialogManager.setDialogues(scenesConfig.scene1.dialogues);
         await dialogManager.play();
 
-        // 6. Fondu au noir avec texte "Quelques heures plus tard..."
+        // --- FONDU NOIR AVEC TEXTE ---
         await fadeToBlack();
+        // --- CHANGEMENT DE BACKGROUND ---
+        // Attendre la fin du fondu au noir (3 secondes)
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        bgScene1.style.opacity = '0';
+        bgScene2.style.opacity = '1';
 
-        // 7. Afficher la scène 2 (même image, nouveaux emojis/dialogues)
+        // --- SCENE 2 ---
         displayScene(scenesConfig.scene2);
+        
+        // Fondu depuis le noir pour révéler la scène 2
         await fadeFromBlack();
-
-        // 8. Lancer les dialogues de la scène 2
         dialogManager.setDialogues(scenesConfig.scene2.dialogues);
         await dialogManager.play();
-
         // Fin de la cinématique
-        console.log('Cinématique terminée');
+        console.log('Cinématique terminée. Transition vers le mini-jeu ou la scène suivante.');
+        nv4_1();
     }
 
     // Initialiser et lancer
     initScene();
     startCutscene();
+
 };
 
-cin1_1();
+cin4_1();
