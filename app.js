@@ -2636,7 +2636,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Configuration des scènes
         const scenesConfig = {
             scene1: {
-                backgroundImage: '../img/Ecole.png', // Variable indépendante
+                backgroundImage: 'img/Ecole.png', // Variable indépendante
                 emojis: ['🤓', '👧🏽', '👧🏻', '👧🏿'],
                 emojiPositions: [
                     { top: '65%', left: '30%', size: '4rem', rotation: '0deg' }, // 👧🏽
@@ -2665,7 +2665,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ]
             },
             scene2: {
-                backgroundImage: '../img/Terrain foot.png',
+                backgroundImage: 'img/Terrain foot.png',
                 emojis: ['🤓', '👧🏽', '👧🏻', '👨🏽‍🦲','⚽'],
                 emojiPositions: [
                     { top: '60%', left: '30%', size: '4rem', rotation: '0deg' }, // 🤓
@@ -2993,7 +2993,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Configuration des scènes
         const scenesConfig = {
             scene1: {
-                backgroundImage: '../img/Maison.png',
+                backgroundImage: 'img/Maison.png',
                 emojis: ['🤓', '👩🏽', '👦🏽', '👨🏽‍🦱','🐈'],
                 emojiPositions: [
                     { top: '75%', left: '40%', size: '4rem', rotation: '0deg' }, // 🤓
@@ -3022,7 +3022,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ]
             },
             scene2: {
-                backgroundImage: '../img/Internat.png',
+                backgroundImage: 'img/Internat.png',
                 emojis: ['🤓','👧🏻', '👧🏿', '👧🏽'],
                 emojiPositions: [
                     { top: '77%', left: '40%', size: '2.5rem', rotation: '0deg' }, // 🤓
@@ -3345,7 +3345,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Configuration des scènes
         const scenesConfig = {
             scene1: {
-                backgroundImage: '../img/Maison.png',
+                backgroundImage: 'img/Maison.png',
                 emojis: ['🤓','👨🏽‍🦱','🐈','🚬'],
                 emojiPositions: [
                     { top: '77%', left: '40%', size: '4rem', rotation: '0deg' }, // 🤓
@@ -3372,7 +3372,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ]
             },
             scene2: {
-                backgroundImage: '../img/Maison.png',
+                backgroundImage: 'img/Maison.png',
                 emojis: ['🤓','👨🏽‍🦱','🐈','🚬','🚬','🚬','🚬'],
                 emojiPositions: [
                     { top: '50%', left: '10%', size: '4rem', rotation: '0deg' }, // 🤓
