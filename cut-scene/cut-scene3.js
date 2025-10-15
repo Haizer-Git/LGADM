@@ -1,58 +1,231 @@
-function cin4_1() {
+function nv5(containerId, onFail) {
+    const section = document.getElementById(containerId);
+    if (!section) return;
+    section.innerHTML = "";
+
+    // --- Instructions ---
+    const instructions = document.createElement('div');
+    instructions.className = 'game-instructions';
+    instructions.innerHTML = `
+        <h2>Niveau 5 - Fidelia</h2>
+        <p>
+            Attention ! Ne tombes pas sous son charme !<br>
+            Cliques sur les visages pour les éloigner !<br>
+        </p>
+    `;
+    section.appendChild(instructions);
+
+    // --- Zone de jeu principale ---
+    const gameArea = document.createElement('div');
+    gameArea.id = 'enemy-invasion-area';
+    gameArea.style.position = 'relative';
+    gameArea.style.width = '90vw';
+    gameArea.style.maxWidth = '500px';
+    gameArea.style.height = '60vw';
+    gameArea.style.maxHeight = '340px';
+    gameArea.style.margin = '18px auto 0 auto';
+    gameArea.style.background = '#1a1a1a';
+    gameArea.style.borderRadius = '16px';
+    gameArea.style.border = '2px solid #222';
+    gameArea.style.overflow = 'hidden';
+    section.appendChild(gameArea);
+
+    // --- Zone de spawn (invisible) ---
+    const spawnZone = document.createElement('div');
+    spawnZone.style.position = 'absolute';
+    spawnZone.style.top = '0';
+    spawnZone.style.left = '15%';
+    spawnZone.style.width = '70%';
+    spawnZone.style.height = '30px';
+    spawnZone.style.pointerEvents = 'none';
+    spawnZone.style.zIndex = '10';
+    spawnZone.style.display = 'none'; // invisible
+    gameArea.appendChild(spawnZone);
+
+    // --- Score ---
+    const scoreBar = document.createElement('div');
+    scoreBar.id = 'enemy-invasion-score';
+    scoreBar.style.textAlign = "center";
+    scoreBar.style.fontSize = "1.2em";
+    scoreBar.style.marginTop = "8px";
+    section.appendChild(scoreBar);
+
+    // --- Joueur (emoji en bas au centre) ---
+    const player = document.createElement('div');
+    player.id = 'enemy-invasion-player';
+    player.style.position = 'absolute';
+    player.style.bottom = '8px';
+    player.style.left = '50%';
+    player.style.transform = 'translateX(-50%)';
+    player.style.fontSize = '2.5em';
+    player.style.userSelect = 'none';
+    player.style.pointerEvents = 'none';
+    player.textContent = '🤓';
+    gameArea.appendChild(player);
+
+    // --- Paramètres du jeu ---
+    let score = 0;
+    let enemies = [];
+    let enemyId = 0;
+    let spawnInterval = 1600;
+    let gameRunning = true;
+    let fail = false;
+    let nextSpawnTimeout = null;
+    let speedBase = 2.5;
+    let speedMin = 0.75;
+
+    function getEnemySpeed() {
+        return Math.max(speedBase - Math.floor(score / 8) * 0.28, speedMin);
+    }
+    function getEnemiesPerSpawn() {
+        // Augmentation progressive du nombre d'ennemis
+        if (score < 10) return 1;
+        if (score < 20) return 2;
+        if (score < 35) return 3;
+        if (score < 55) return 4;
+        return 5;
+    }
+    function getSpawnInterval() {
+        return Math.max(1600 - score * 30, 550);
+    }
+
+    // --- Génère et lance des ennemis ---
+    function spawnEnemies() {
+        if (!gameRunning) return;
+        const count = getEnemiesPerSpawn();
+        for (let i = 0; i < count; i++) {
+            const enemy = document.createElement('div');
+            // Spawn entre 15% et 85% de la largeur (centré)
+            const leftPercent = 15 + Math.random() * 70;
+            enemy.className = 'enemy-invasion-enemy';
+            enemy.style.position = 'absolute';
+            enemy.style.left = `calc(${leftPercent}% - 1.2em)`;
+            enemy.style.top = '-60px';
+            enemy.style.fontSize = '2.5em';
+            enemy.style.cursor = 'pointer';
+            const travelSecs = getEnemySpeed();
+            enemy.style.transition = `top ${travelSecs}s linear`;
+            const img = document.createElement('img');
+            img.src = 'img/PP.jpg'; // Chemin à adapter si besoin
+            img.alt = 'Fidelia';
+            img.style.width = '1em';
+            img.style.height = '1em';
+            img.style.borderRadius = '50%';
+            enemy.appendChild(img);
+            enemy.dataset.enemyid = enemyId++;
+            enemy.dataset.left = leftPercent;
+
+            function killEnemy(e) {
+                if (!gameRunning) return;
+                e.stopPropagation();
+                enemy.remove();
+                enemies = enemies.filter(en => en !== enemy);
+                score++;
+                updateScore();
+            }
+            enemy.addEventListener('click', killEnemy);
+            enemy.addEventListener('touchstart', killEnemy, { passive: false });
+
+            gameArea.appendChild(enemy);
+
+            // Force reflow
+            void enemy.offsetWidth;
+
+            setTimeout(() => {
+                enemy.style.top = `calc(100% - 56px)`;
+            }, 10);
+
+            enemies.push(enemy);
+
+            // Défaite si l'ennemi atteint le joueur
+            const travelTime = travelSecs;
+            setTimeout(() => {
+                if (!enemy.parentNode || !gameRunning) return;
+                triggerFail();
+            }, travelTime * 1000 - 100);
+        }
+        spawnInterval = getSpawnInterval();
+        if (gameRunning) {
+            nextSpawnTimeout = setTimeout(spawnEnemies, spawnInterval);
+        }
+    }
+
+    function updateScore() {
+        scoreBar.innerHTML = `Tu as résisté à <b>${score}</b> disquettes`;
+    }
+
+    function triggerFail() {
+        if (!gameRunning) return;
+        gameRunning = false;
+        fail = true;
+        enemies.forEach(en => en.remove());
+        enemies = [];
+        if (nextSpawnTimeout) clearTimeout(nextSpawnTimeout);
+        scoreBar.innerHTML = '';
+        if (typeof onFail === "function") onFail(score);
+    }
+
+    function restart() {
+        score = 0;
+        enemies.forEach(en => en.remove());
+        enemies = [];
+        gameRunning = true;
+        fail = false;
+        updateScore();
+        spawnInterval = 1600;
+        spawnEnemies();
+    }
+
+    // --- Lancement du jeu ---
+    updateScore();
+    spawnEnemies();
+}
+
+
+
+
+
+
+
+function cin5_1() {
     // Configuration des scènes
     const scenesConfig = {
         scene1: {
-            backgroundImage: '../img/Maison.png',
-            emojis: ['🤓','👨🏽‍🦱','🐈','🚬'],
+            backgroundImage: '../img/Fidelia.png',
+            emojis: ['🤓','👱🏼‍♀️'],
             emojiPositions: [
-                { top: '77%', left: '40%', size: '4rem', rotation: '0deg' }, // 🤓
-                { top: '75%', left: '10%', size: '4rem', rotation: '0deg' }, // 👨🏽‍🦱
-                { top: '43%', left: '65%', size: '3rem', rotation: '0deg' }, // 🐈
-                { top: '77%', left: '7%', size: '1rem', rotation: '0deg' }, // 🚬
+                { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
+                { top: '70%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 👱🏼‍♀️
             ],
             dialogues: [
-                { character: '🐈', text: 'MIAOU', duration: 1.5 },
-                { character: '🤓', text: 'AHHHH', duration: 1.5 },
-                { character: '🤓', text: 'Qu\'est-ce que ça fait du bien de rentrer à la casa.', duration: 3 },
-                { character: '🤓', text: 'J\'ai bien mérité ça après ces années d\'internat.', duration: 2.5 },
-                { character: '👨🏽‍🦱', text: 'Salut oukty, ça gaze ?', duration: 2 },
-                { character: '🤓', text: 'Salu..', duration: 1 },
-                { character: '🤓', text: 'T\'as quoi dans la bouche ?', duration: 2 },
-                { character: '👨🏽‍🦱', text: 'Tu connais pas ? C\'est la mode maintenant', duration: 2 },
-                { character: '👨🏽‍🦱', text: 'C\'est une Puff !', duration: 1.5 },
-                { character: '🤓', text: 'Une quoi ?', duration: 1 },
-                { character: '👨🏽‍🦱', text: 'Une puff !', duration: 1 },
-                { character: '🤓', text: 'Une quoi ? Une quoi ?', duration: 1 },
-                { character: '👨🏽‍🦱', text: 'Une puff !', duration: 1 },
-                { character: '👨🏽‍🦱', text: 'Tu veux gouter ? Ca détend pour les exams !', duration: 2.5 },
-                { character: '🤓', text: 'Ouais pourquoi pas ! J\'en ai bien besoin avec les partiels !', duration: 2.5 },
+                { character: '👱🏼‍♀️', text: 'MMA Assistance Bonjour', duration: 2 },
+                { character: '🤓', text: 'Oh nan, j\'ai ma rentrée un jour de taff..', duration: 2 },
+                { character: '👱🏼‍♀️', text: 'Très bien, je pourrais avoir votre nom et code postal', duration: 2.5 },
+                { character: '🤓', text: 'Faut que je trouve quelqu\'un avec qui échanger', duration: 2 },
+                { character: '🤓', text: 'Sur le planning, il y a qui de libre...', duration: 1.5 },
+                { character: '🤓', text: 'Hmm 🤔', duration: 1 },
+                { character: '🤓', text: 'Haizer ?', duration: 1 },
+                { character: '👱🏼‍♀️', text: 'Nan madame, on peut pas vous rapatrier depuis Mantes-La-Jolie, c\'est une zone de guerre', duration: 3 },
+                { character: '🤓', text: 'Je vais lui envoyer un message sur Teams, pour lui demander', duration: 2 },
+                { character: '🤓', text: 'J\'espère qu\'il acceptera, il est trop mystérieux', duration: 2 },
             ]
         },
         scene2: {
-            backgroundImage: '../img/Maison.png',
-            emojis: ['🤓','👨🏽‍🦱','🐈','🚬','🚬','🚬','🚬'],
+            backgroundImage: '../img/Fidelia.png',
+            emojis: ['🤓','👩🏽'],
             emojiPositions: [
-                { top: '50%', left: '10%', size: '4rem', rotation: '0deg' }, // 🤓
-                { top: '30%', left: '50%', size: '2.7rem', rotation: '0deg' }, // 👨🏽‍🦱
-                { top: '75%', left: '65%', size: '3rem', rotation: '0deg' }, // 🐈
-                { top: '31.12%', left: '48%', size: '0.5rem', rotation: '0deg' }, // 🚬
-                { top: '51.5%', left: '5%', size: '1rem', rotation: '0deg' }, // 🚬
-                { top: '61%', left: '50%', size: '1.5rem', rotation: '30deg' }, // 🚬
-                { top: '45%', left: '50%', size: '1.5rem', rotation: '0deg' }, // 🚬
+                { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
+                { top: '36%', left: '95%', size: '3.5rem', rotation: '0deg' }, // 👩🏽
             ],
             dialogues: [
-                { character: '🐈', text: 'MI', duration: 1 },
-                { character: '🐈', text: 'AOUU', duration: 1 },
-                { character: '🤓', text: 'Wesh frangin, ça dit quoi ?', duration: 2 },
-                { character: '👨🏽‍🦱', text: 'Manel, c\'est toi qui a laissé toutes ces puffs partout ??', duration: 3 },
-                { character: '🤓', text: 'Ah, p\'tetre j\'ai pas fais gaffe 😅', duration: 1.5 },
-                { character: '👨🏽‍🦱', text: 'Faut vite que tu les ramasses !!!', duration: 1.5 },
-                { character: '🤓', text: 'Je le ferai après, tkt pas..', duration: 1.5 },
-                { character: '👨🏽‍🦱', text: 'Nan nan MAINTENANT !', duration: 1.5 },
-                { character: '👨🏽‍🦱', text: 'Maman arrive, si elle en trouve t\'es dead !', duration: 2 },
-                { character: '🤓', text: 'QUOIIIII', duration: 1.5 },
-                { character: '🤓', text: 'Euuuh ok ok, je vais les récupérer.', duration: 1.5 },
-                { character: '👨🏽‍🦱', text: 'Fais vite, elle est en bas, elle arrive dans 2 minutes !', duration: 3 },
+                { character: '🤓', text: 'Ouah, il a accepté, trop gentil !', duration: 2 },
+                { character: '🤓', text: 'En plus il est trop drole 🤣🤣🤣', duration: 2 },
+                { character: '🤓', text: 'En plus il est intelligent', duration: 2.5 },
+                { character: '🤓', text: 'En plus il est trop..', duration: 1.5 },
+                { character: '🤓', text: 'STOP HAIZER on a capté c\'est bon', duration: 2 },
+                { character: '🤓', text: 'Tu profites de ça pour te faire des compliments', duration: 2 },
+                { character: '🤓', text: 'Saye lances le dernier jeu', duration: 1.5 },
+                { character: '🤓', text: 'Tu dois résister aux disquettes et pas tomber sous le charme', duration: 2 },
             ]
         }
     };
@@ -176,7 +349,7 @@ function cin4_1() {
                 <div class="background-layer bg-scene1"></div>
                 <div class="background-layer bg-scene2" style="opacity:0;"></div>
                 <div class="fade-overlay"></div>
-                <div class="transition-text">Quelques jours plus tard...</div>
+                <div class="transition-text">Quelques heures plus tard</div>
                 <div class="emoji-container"></div>
             </div>
         `;
@@ -337,22 +510,23 @@ function cin4_1() {
         // --- FONDU NOIR AVEC TEXTE ---
         await fadeToBlack();
         // --- CHANGEMENT DE BACKGROUND ---
-        // Attendre la fin du fondu au noir (3 secondes)
-        await new Promise(resolve => setTimeout(resolve, 3000));
         
         bgScene1.style.opacity = '0';
         bgScene2.style.opacity = '1';
 
         // --- SCENE 2 ---
+        nv5('mini-game-1', function(score) {
+            console.log('Jeu terminé avec un score de:', score);
+        });
         displayScene(scenesConfig.scene2);
         
         // Fondu depuis le noir pour révéler la scène 2
         await fadeFromBlack();
         dialogManager.setDialogues(scenesConfig.scene2.dialogues);
         await dialogManager.play();
-        // Fin de la cinématique
-        console.log('Cinématique terminée. Transition vers le mini-jeu ou la scène suivante.');
-        nv4_1();
+        nv5('mini-game-1', function(score) {
+            console.log('Jeu terminé avec un score de:', score);
+        });
     }
 
     // Initialiser et lancer
@@ -361,4 +535,6 @@ function cin4_1() {
 
 };
 
-cin4_1();
+cin5_1();
+
+

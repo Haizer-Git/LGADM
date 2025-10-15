@@ -2040,10 +2040,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const nextBtn = document.getElementById('next-workshop-link');
                 if (nextBtn) {
                     nextBtn.onclick = () => {
-                        nv5(containerId, function(score) {
-                            // Callback après défaite niveau 5
-                            alert("Game Over ! Score: " + score);
-                        });
+                        cin5_1();
                     };
                 }
             } else {
@@ -3704,6 +3701,354 @@ document.addEventListener("DOMContentLoaded", () => {
 
     };
 
+    function cin5_1() {
+        // Configuration des scènes
+        const scenesConfig = {
+            scene1: {
+                backgroundImage: '../img/Fidelia.png',
+                emojis: ['🤓','👱🏼‍♀️'],
+                emojiPositions: [
+                    { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
+                    { top: '70%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 👱🏼‍♀️
+                ],
+                dialogues: [
+                    { character: '👱🏼‍♀️', text: 'MMA Assistance Bonjour', duration: 2 },
+                    { character: '🤓', text: 'Oh nan, j\'ai ma rentrée un jour de taff..', duration: 2 },
+                    { character: '👱🏼‍♀️', text: 'Très bien, je pourrais avoir votre nom et code postal', duration: 2.5 },
+                    { character: '🤓', text: 'Faut que je trouve quelqu\'un avec qui échanger', duration: 2 },
+                    { character: '🤓', text: 'Sur le planning, il y a qui de libre...', duration: 1.5 },
+                    { character: '🤓', text: 'Hmm 🤔', duration: 1 },
+                    { character: '🤓', text: 'Haizer ?', duration: 1 },
+                    { character: '👱🏼‍♀️', text: 'Nan madame, on peut pas vous rapatrier depuis Mantes-La-Jolie, c\'est une zone de guerre', duration: 3 },
+                    { character: '🤓', text: 'Je vais lui envoyer un message sur Teams, pour lui demander', duration: 2 },
+                    { character: '🤓', text: 'J\'espère qu\'il acceptera, il est trop mystérieux', duration: 2 },
+                ]
+            },
+            scene2: {
+                backgroundImage: '../img/Fidelia.png',
+                emojis: ['🤓','👩🏽'],
+                emojiPositions: [
+                    { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
+                    { top: '36%', left: '95%', size: '3.5rem', rotation: '0deg' }, // 👩🏽
+                ],
+                dialogues: [
+                    { character: '🤓', text: 'Ouah, il a accepté, trop gentil !', duration: 2 },
+                    { character: '🤓', text: 'En plus il est trop drole 🤣🤣🤣', duration: 2 },
+                    { character: '🤓', text: 'En plus il est intelligent', duration: 2.5 },
+                    { character: '🤓', text: 'En plus il est trop..', duration: 1.5 },
+                    { character: '🤓', text: 'STOP HAIZER on a capté c\'est bon', duration: 2 },
+                    { character: '🤓', text: 'Tu profites de ça pour te faire des compliments', duration: 2 },
+                    { character: '🤓', text: 'Saye lances le dernier jeu', duration: 1.5 },
+                    { character: '🤓', text: 'Tu dois résister aux disquettes et pas tomber sous le charme', duration: 2 },
+                ]
+            }
+        };
+
+        // Classe pour gérer les dialogues
+        class DialogManager {
+            constructor() {
+                this.dialogQueue = [];
+                this.isPlaying = false;
+                this.currentDialogBox = null;
+            }
+
+            setDialogues(dialogues) {
+                this.dialogQueue = dialogues;
+                return this;
+            }
+
+            async play() {
+                if (this.isPlaying) return;
+                this.isPlaying = true;
+
+                for (const dialog of this.dialogQueue) {
+                    await this.displayDialog(dialog.character, dialog.text, dialog.duration);
+                }
+
+                this.isPlaying = false;
+                this.dialogQueue = [];
+                this.hideDialog();
+            }
+
+            displayDialog(character, text, duration) {
+                return new Promise((resolve) => {
+                    showDialog(character, text);
+                    setTimeout(() => {
+                        resolve();
+                    }, duration * 1000);
+                });
+            }
+
+            hideDialog() {
+                const container = document.querySelector('.cutscene-container');
+                const dialogBox = container?.querySelector('.dialog-box');
+                if (dialogBox) {
+                    dialogBox.remove();
+                }
+            }
+        }
+
+        const dialogManager = new DialogManager();
+
+        // Fonction pour créer la boîte de dialogue
+        function createDialogBox() {
+            const dialogBox = document.createElement('div');
+            dialogBox.className = 'dialog-box';
+            dialogBox.innerHTML = `
+                <div class="dialog-speaker-emoji"></div>
+                <div class="dialog-text"></div>
+            `;
+            
+            const dialogStyle = document.createElement('style');
+            dialogStyle.textContent = `
+                .dialog-box {
+                    position: absolute;
+                    width: 60%;
+                    height: 15%;
+                    background: rgba(0, 0, 0, 0.8);
+                    border: 3px solid white;
+                    border-radius: 10px;
+                    padding-top: 10%;
+                    padding-left: 5%;
+                    text-align: left;
+                    z-index: 20;
+                    top: 90%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+                .dialog-speaker-emoji {
+                    position: absolute;
+                    top: -30px;
+                    left: 5%;
+                    font-size: 3rem;
+                    background: rgba(0, 0, 0, 0.8);
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    width: 60px;
+                    height: 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .dialog-text {
+                    color: white;
+                    font-size: 1.2rem;
+                    line-height: 1.5;
+                }
+            `;
+            document.head.appendChild(dialogStyle);
+            
+            return dialogBox;
+        }
+
+        function showDialog(speakerEmoji, text) {
+            const container = document.querySelector('.cutscene-container');
+            let dialogBox = container.querySelector('.dialog-box');
+            
+            if (!dialogBox) {
+                dialogBox = createDialogBox();
+                container.appendChild(dialogBox);
+            }
+            
+            dialogBox.querySelector('.dialog-speaker-emoji').textContent = speakerEmoji;
+            dialogBox.querySelector('.dialog-text').textContent = text;
+        }
+
+        // Initialiser la scène avec deux backgrounds différents
+        const scene = document.getElementById('mini-game-1');
+
+        function initScene() {
+            scene.innerHTML = `
+                <div class="cutscene-container">
+                    <div class="background-layer bg-scene1"></div>
+                    <div class="background-layer bg-scene2" style="opacity:0;"></div>
+                    <div class="fade-overlay"></div>
+                    <div class="transition-text">Quelques heures plus tard</div>
+                    <div class="emoji-container"></div>
+                </div>
+            `;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .cutscene-container {
+                    position: relative;
+                    width: 100vw;
+                    height: 100vh;
+                    overflow: hidden;
+                    background: black;
+                }
+                .background-layer {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background-size: cover;
+                    background-position: center;
+                    transition: opacity 1.2s ease-in-out;
+                }
+                .bg-scene1 {
+                    background-image: url('${scenesConfig.scene1.backgroundImage}');
+                    z-index: 1;
+                    opacity: 1;
+                }
+                .bg-scene2 {
+                    background-image: url('${scenesConfig.scene2.backgroundImage}');
+                    z-index: 2;
+                    opacity: 0;
+                }
+                .fade-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: black;
+                    opacity: 0;
+                    z-index: 15;
+                    transition: opacity 1.2s ease-in-out;
+                    pointer-events: none;
+                }
+                .fade-overlay.active {
+                    opacity: 1;
+                }
+                .transition-text {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: white;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    text-align: center;
+                    z-index: 16;
+                    opacity: 0;
+                    transition: opacity 1s ease-in-out;
+                    pointer-events: none;
+                    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+                }
+                .transition-text.visible {
+                    opacity: 1;
+                }
+                .emoji-container {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10;
+                    opacity: 0;
+                    transition: opacity 1s ease-in-out;
+                }
+                .emoji-container.visible {
+                    opacity: 1;
+                }
+                .emoji {
+                    position: absolute;
+                    opacity: 1;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Afficher les emojis pour une scène donnée
+        function displayScene(sceneConfig) {
+            const emojiContainer = scene.querySelector('.emoji-container');
+            emojiContainer.innerHTML = '';
+
+            sceneConfig.emojis.forEach((emoji, index) => {
+                if (!emoji) return;
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'emoji';
+                emojiSpan.textContent = emoji;
+                emojiSpan.style.top = sceneConfig.emojiPositions[index].top;
+                emojiSpan.style.left = sceneConfig.emojiPositions[index].left;
+                emojiSpan.style.fontSize = sceneConfig.emojiPositions[index].size;
+                emojiSpan.style.transform = `translate(-50%, -50%) rotate(${sceneConfig.emojiPositions[index].rotation})`;
+                emojiContainer.appendChild(emojiSpan);
+            });
+        }
+
+        // Fondu au noir avec texte
+        function fadeToBlack() {
+            return new Promise((resolve) => {
+                const fadeOverlay = scene.querySelector('.fade-overlay');
+                const emojiContainer = scene.querySelector('.emoji-container');
+                const transitionText = scene.querySelector('.transition-text');
+                
+                emojiContainer.classList.remove('visible');
+                fadeOverlay.classList.add('active');
+                
+                // Afficher le texte après le fondu au noir
+                setTimeout(() => {
+                    transitionText.classList.add('visible');
+                }, 1500);
+                
+                // Masquer le texte avant de continuer
+                setTimeout(() => {
+                    transitionText.classList.remove('visible');
+                }, 4000);
+                
+                setTimeout(() => {
+                    resolve();
+                }, 5000);
+            });
+        }
+
+        // Fondu depuis le noir
+        function fadeFromBlack() {
+            return new Promise((resolve) => {
+                const fadeOverlay = scene.querySelector('.fade-overlay');
+                const emojiContainer = scene.querySelector('.emoji-container');
+                
+                fadeOverlay.classList.remove('active');
+                
+                setTimeout(() => {
+                    emojiContainer.classList.add('visible');
+                    resolve();
+                }, 600);
+            });
+        }
+
+        // Séquence complète de la cinématique
+        async function startCutscene() {
+            const bgScene1 = scene.querySelector('.bg-scene1');
+            const bgScene2 = scene.querySelector('.bg-scene2');
+            const emojiContainer = scene.querySelector('.emoji-container');
+
+            // --- SCENE 1 ---
+            displayScene(scenesConfig.scene1);
+            emojiContainer.classList.add('visible');
+            await new Promise(resolve => setTimeout(resolve, 700));
+            dialogManager.setDialogues(scenesConfig.scene1.dialogues);
+            await dialogManager.play();
+
+            // --- FONDU NOIR AVEC TEXTE ---
+            await fadeToBlack();
+            // --- CHANGEMENT DE BACKGROUND ---
+            // Attendre la fin du fondu au noir (3 secondes)
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            bgScene1.style.opacity = '0';
+            bgScene2.style.opacity = '1';
+
+            // --- SCENE 2 ---
+            displayScene(scenesConfig.scene2);
+            
+            // Fondu depuis le noir pour révéler la scène 2
+            await fadeFromBlack();
+            dialogManager.setDialogues(scenesConfig.scene2.dialogues);
+            await dialogManager.play();
+            // Fin de la cinématique
+            console.log('Cinématique terminée. Transition vers le mini-jeu ou la scène suivante.');
+            nv5('mini-game-1', function(score) {
+                console.log('Jeu terminé avec un score de:', score);
+            });
+        }
+
+        // Initialiser et lancer
+        initScene();
+        startCutscene();
+
+    };
 
 
 });

@@ -1,30 +1,21 @@
 function playOnlyScene2(containerId = 'mini-game-1') {
     // Même structure que scenesConfig.scene2 dans ta fonction principale
     const scene2Config = {
-        backgroundImage: '../img/Maison.png',
-        emojis: ['🤓','👨🏽‍🦱','🐈','🚬','🚬','🚬','🚬'],
+        backgroundImage: '../img/Fidelia.png',
+        emojis: ['🤓','👩🏽'],
         emojiPositions: [
-            { top: '50%', left: '10%', size: '4rem', rotation: '0deg' }, // 🤓
-            { top: '30%', left: '50%', size: '2.7rem', rotation: '0deg' }, // 👨🏽‍🦱
-            { top: '75%', left: '65%', size: '3rem', rotation: '0deg' }, // 🐈
-            { top: '31.12%', left: '48%', size: '0.5rem', rotation: '0deg' }, // 🚬
-            { top: '51.5%', left: '5%', size: '1rem', rotation: '0deg' }, // 🚬
-            { top: '61%', left: '50%', size: '1.5rem', rotation: '30deg' }, // 🚬
-            { top: '45%', left: '50%', size: '1.5rem', rotation: '0deg' }, // 🚬
+            { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
+            { top: '36%', left: '95%', size: '3.5rem', rotation: '0deg' }, // 👩🏽
         ],
         dialogues: [
-            { character: '🐈', text: 'MI', duration: 1 },
-            { character: '🐈', text: 'AOUU', duration: 1 },
-            { character: '🤓', text: 'Wesh frangin, ça dit quoi ?', duration: 2 },
-            { character: '👨🏽‍🦱', text: 'Manel, c\'est toi qui a laissé toutes ces puffs partout ??', duration: 3 },
-            { character: '🤓', text: 'Ah, p\'tetre j\'ai pas fais gaffe 😅', duration: 1.5 },
-            { character: '👨🏽‍🦱', text: 'Faut vite que tu les ramasses !!!', duration: 1.5 },
-            { character: '🤓', text: 'Je le ferai après, tkt pas..', duration: 1.5 },
-            { character: '👨🏽‍🦱', text: 'Nan nan MAINTENANT !', duration: 1.5 },
-            { character: '👨🏽‍🦱', text: 'Maman arrive, si elle en trouve t\'es dead !', duration: 2 },
-            { character: '🤓', text: 'QUOIIIII', duration: 1.5 },
-            { character: '🤓', text: 'Euuuh ok ok, je vais les récupérer', duration: 1.5 },
-            { character: '👨🏽‍🦱', text: 'Fais vite, elle est en bas, elle arrive dans 2 minutes !', duration: 3 },
+            { character: '🤓', text: 'Ouah, il a accepté, trop gentil !', duration: 2 },
+            { character: '🤓', text: 'En plus il est trop drole 🤣🤣🤣', duration: 2 },
+            { character: '🤓', text: 'En plus il est intelligent', duration: 2.5 },
+            { character: '🤓', text: 'En plus il est trop..', duration: 1.5 },
+            { character: '🤓', text: 'STOP HAIZER on a capté c\'est bon', duration: 2 },
+            { character: '🤓', text: 'Tu profites de ça pour te faire des compliments', duration: 2 },
+            { character: '🤓', text: 'Saye lances le dernier jeu', duration: 1.5 },
+            { character: '🤓', text: 'Tu dois résister aux disquettes et pas tomber sous le charme', duration: 2 },
         ]
     };
 
