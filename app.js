@@ -3689,7 +3689,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Configuration des scènes
         const scenesConfig = {
             scene1: {
-                backgroundImage: '../img/Fidelia.png',
+                backgroundImage: 'img/Fidelia.png',
                 emojis: ['🤓','👱🏼‍♀️'],
                 emojiPositions: [
                     { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
@@ -3709,7 +3709,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ]
             },
             scene2: {
-                backgroundImage: '../img/Fidelia.png',
+                backgroundImage: 'img/Fidelia.png',
                 emojis: ['🤓','👩🏽'],
                 emojiPositions: [
                     { top: '44%', left: '30%', size: '3.5rem', rotation: '0deg' }, // 🤓
