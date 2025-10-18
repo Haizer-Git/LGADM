@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('start-section').classList.add('hidden');
         document.getElementById('game-section').classList.remove('hidden');
         document.getElementById('game-section').innerHTML = `<div id="mini-game-1"></div>`;
-        cin1_1();
+        nv4("mini-game-1");
     });
 
 
@@ -1733,7 +1733,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let objectGrid;
 
         // --- Timer ---
-        let maxTime = 80;
+        let maxTime = 90;
         let timeLeft = maxTime;
         let timerInterval = null;
         let timerEnded = false;
@@ -2606,7 +2606,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Fin de la cinématique
             console.log('Cinématique terminée');
-            nv1_1();
+            nv4("mini-game-1");
         }
 
         // Initialiser et lancer
